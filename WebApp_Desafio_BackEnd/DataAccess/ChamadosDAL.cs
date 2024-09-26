@@ -17,23 +17,20 @@ namespace WebApp_Desafio_BackEnd.DataAccess
         {
             IList<Chamado> lstChamados = new List<Chamado>();
 
-            DataTable dtChamados = new DataTable();
-
             using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
             {
                 using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
                 {
-
-                    dbCommand.CommandText = 
-                        "SELECT chamados.ID, " + 
-                        "       Assunto, " +
-                        "       Solicitante, " +
-                        "       IdDepartamento, " +
-                        "       departamentos.Descricao AS Departamento, " + 
-                        "       DataAbertura " + 
-                        "FROM chamados " + 
-                        "INNER JOIN departamentos " +
-                        "   ON chamados.IdDepartamento = departamentos.ID ";
+                    dbCommand.CommandText =
+                        @"SELECT chamados.ID,
+                                 Assunto,
+                                 Solicitante,
+                                 IdDepartamento,
+                                 departamentos.Descricao AS Departamento,
+                                 DataAbertura
+                          FROM chamados
+                          INNER JOIN departamentos
+                          ON chamados.IdDepartamento = departamentos.ID";
 
                     dbConnection.Open();
 
@@ -64,7 +61,6 @@ namespace WebApp_Desafio_BackEnd.DataAccess
                     }
                     dbConnection.Close();
                 }
-
             }
 
             return lstChamados;
@@ -74,24 +70,23 @@ namespace WebApp_Desafio_BackEnd.DataAccess
         {
             var chamado = Chamado.Empty;
 
-            DataTable dtChamados = new DataTable();
-
             using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
             {
                 using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
                 {
                     dbCommand.CommandText =
-                        "SELECT chamados.ID, " +
-                        "       Assunto, " +
-                        "       Solicitante, " +
-                        "       IdDepartamento, " +
-                        "       departamentos.Descricao AS Departamento, " +
-                        "       DataAbertura " +
-                        "FROM chamados " +
-                        "INNER JOIN departamentos " +
-                        "   ON chamados.IdDepartamento = departamentos.ID " +
-                        $"WHERE chamados.ID = {idChamado}";
+                        @"SELECT chamados.ID,
+                                 Assunto,
+                                 Solicitante,
+                                 IdDepartamento, 
+                                 departamentos.Descricao AS Departamento,
+                                 DataAbertura
+                          FROM chamados
+                          INNER JOIN departamentos
+                          ON chamados.IdDepartamento = departamentos.ID
+                          WHERE chamados.ID = @ID";
 
+                    dbCommand.Parameters.AddWithValue("@ID", idChamado);
                     dbConnection.Open();
 
                     using (SQLiteDataReader dataReader = dbCommand.ExecuteReader())
@@ -134,19 +129,19 @@ namespace WebApp_Desafio_BackEnd.DataAccess
                 {
                     if (ID == 0)
                     {
-                        dbCommand.CommandText = 
-                            "INSERT INTO chamados (Assunto,Solicitante,IdDepartamento,DataAbertura)" +
-                            "VALUES (@Assunto,@Solicitante,@IdDepartamento,@DataAbertura)";
+                        dbCommand.CommandText =
+                            @"INSERT INTO chamados (Assunto, Solicitante, IdDepartamento, DataAbertura)
+                              VALUES (@Assunto, @Solicitante, @IdDepartamento, @DataAbertura)";
                     }
                     else
                     {
-                        dbCommand.CommandText = 
-                            "UPDATE chamados " + 
-                            "SET Assunto=@Assunto, " + 
-                            "    Solicitante=@Solicitante, " +
-                            "    IdDepartamento=@IdDepartamento, " + 
-                            "    DataAbertura=@DataAbertura " + 
-                            "WHERE ID=@ID ";
+                        dbCommand.CommandText =
+                            @"UPDATE chamados SET 
+                                    Assunto = @Assunto,
+                                    Solicitante = @Solicitante,
+                                    IdDepartamento = @IdDepartamento,
+                                    DataAbertura = @DataAbertura
+                              WHERE ID = @ID ";
                     }
 
                     dbCommand.Parameters.AddWithValue("@Assunto", Assunto);
@@ -159,11 +154,9 @@ namespace WebApp_Desafio_BackEnd.DataAccess
                     regsAfetados = dbCommand.ExecuteNonQuery();
                     dbConnection.Close();
                 }
-
             }
 
             return (regsAfetados > 0);
-
         }
 
         public bool ExcluirChamado(int idChamado)
@@ -174,14 +167,13 @@ namespace WebApp_Desafio_BackEnd.DataAccess
             {
                 using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
                 {
-                    dbCommand.CommandText = $"DELETE FROM chamados WHERE ID = {idChamado}";
+                    dbCommand.CommandText = "DELETE FROM chamados WHERE ID = @ID";
+                    dbCommand.Parameters.AddWithValue("@ID", idChamado);
 
                     dbConnection.Open();
                     regsAfetados = dbCommand.ExecuteNonQuery();
                     dbConnection.Close();
-
                 }
-
             }
 
             return (regsAfetados > 0);

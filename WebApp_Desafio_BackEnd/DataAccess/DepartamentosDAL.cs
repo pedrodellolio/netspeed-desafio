@@ -19,9 +19,7 @@ namespace WebApp_Desafio_BackEnd.DataAccess
             {
                 using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
                 {
-
-                    dbCommand.CommandText = "SELECT * FROM departamentos ";
-
+                    dbCommand.CommandText = "SELECT * FROM departamentos";
                     dbConnection.Open();
 
                     using (SQLiteDataReader dataReader = dbCommand.ExecuteReader())
@@ -47,6 +45,90 @@ namespace WebApp_Desafio_BackEnd.DataAccess
             }
 
             return lstDepartamentos;
+        }
+
+        public Departamento ObterDepartamento(int idDepartamento)
+        {
+            var departamento = Departamento.Empty;
+
+            using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
+            {
+                using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
+                {
+                    dbCommand.CommandText = "SELECT departamentos.ID, Descricao FROM departamentos WHERE departamentos.ID = @ID";
+                    dbCommand.Parameters.AddWithValue("@ID", idDepartamento);
+
+                    dbConnection.Open();
+
+                    using (SQLiteDataReader dataReader = dbCommand.ExecuteReader())
+                    {
+                        if (dataReader.Read())
+                        {
+                            departamento = new Departamento();
+
+                            if (!dataReader.IsDBNull(0))
+                                departamento.ID = dataReader.GetInt32(0);
+                            if (!dataReader.IsDBNull(1))
+                                departamento.Descricao = dataReader.GetString(1);
+                        }
+                        dataReader.Close();
+                    }
+                    dbConnection.Close();
+                }
+
+            }
+
+            return departamento;
+        }
+
+        public bool GravarDepartamento(int ID, string descricao)
+        {
+            int regsAfetados = -1;
+
+            using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
+            {
+                using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
+                {
+                    if (ID == 0)
+                    {
+                        dbCommand.CommandText = "INSERT INTO departamentos (Descricao) VALUES (@Descricao)";
+                    }
+                    else
+                    {
+                        dbCommand.CommandText = "UPDATE departamentos SET Descricao = @Descricao WHERE ID = @ID";
+                    }
+
+                    dbCommand.Parameters.AddWithValue("@Descricao", descricao);
+                    dbCommand.Parameters.AddWithValue("@ID", ID);
+
+                    dbConnection.Open();
+                    regsAfetados = dbCommand.ExecuteNonQuery();
+                    dbConnection.Close();
+                }
+
+            }
+
+            return (regsAfetados > 0);
+        }
+
+        public bool ExcluirDepartamento(int idDepartamento)
+        {
+            int regsAfetados = -1;
+
+            using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
+            {
+                using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
+                {
+                    dbCommand.CommandText = "DELETE FROM departamentos WHERE ID = @ID";
+                    dbCommand.Parameters.AddWithValue("@ID", idDepartamento);
+
+                    dbConnection.Open();
+                    regsAfetados = dbCommand.ExecuteNonQuery();
+                    dbConnection.Close();
+                }
+            }
+
+            return (regsAfetados > 0);
         }
     }
 }
