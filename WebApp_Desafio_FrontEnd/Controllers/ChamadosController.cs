@@ -170,6 +170,5 @@ namespace WebApp_Desafio_FrontEnd.Controllers
             //return File(reportResult.MainStream, "application/pdf");
             return File(reportResult.MainStream, "application/octet-stream", "rptChamados.pdf");
         }
-
     }
 }
