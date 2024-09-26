@@ -12,6 +12,9 @@
             { data: 'ID' },
             { data: 'Descricao', title: 'Descrição' },
         ],
+        drawCallback: function (settings) {
+            $('#dataTables-Departamentos tbody tr').css('cursor', 'pointer');
+        }
     });
 
     $('#dataTables-Departamentos tbody').on('click', 'tr', function () {
@@ -31,9 +34,16 @@
         window.location.href = config.contextPath + 'Departamentos/Cadastrar';
     });
 
+    // Habilita o duplo clique redirecionar para a edição da linha
+    const URL_EDITAR = 'Departamentos/Editar/';
+    $('#dataTables-Departamentos tbody').on('dblclick', 'tr', function () {
+        var data = table.row(this).data();
+        window.location.href = config.contextPath + URL_EDITAR + data.ID;
+    });
+
     $('#btnEditar').click(function () {
         var data = table.row('.selected').data();
-        window.location.href = config.contextPath + 'Departamentos/Editar/' + data.ID;
+        window.location.href = config.contextPath + URL_EDITAR + data.ID;
     });
 
     $('#btnExcluir').click(function () {

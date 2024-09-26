@@ -15,6 +15,9 @@
             { data: 'Departamento' },
             { data: 'DataAberturaWrapper', title: 'Data Abertura' },
         ],
+        drawCallback: function (settings) {
+            $('#dataTables-Chamados tbody tr').css('cursor', 'pointer');
+        }
     });
 
     $('#dataTables-Chamados tbody').on('click', 'tr', function () {
@@ -26,6 +29,7 @@
         }
     });
 
+
     $('#btnRelatorio').click(function () {
         window.location.href = config.contextPath + 'Chamados/Report';
     });
@@ -34,9 +38,16 @@
         window.location.href = config.contextPath + 'Chamados/Cadastrar';
     });
 
+    const URL_EDITAR = 'Chamados/Editar/';
+    // Habilita o duplo clique redirecionar para a edição da linha
+    $('#dataTables-Chamados tbody').on('dblclick', 'tr', function () {
+        var data = table.row(this).data();
+        window.location.href = config.contextPath + URL_EDITAR + data.ID;
+    });
+
     $('#btnEditar').click(function () {
         var data = table.row('.selected').data();
-        window.location.href = config.contextPath + 'Chamados/Editar/' + data.ID;
+        window.location.href = config.contextPath + URL_EDITAR + data.ID;
     });
 
     $('#btnExcluir').click(function () {
