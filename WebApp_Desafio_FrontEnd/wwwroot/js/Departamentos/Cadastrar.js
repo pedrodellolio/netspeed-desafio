@@ -25,7 +25,6 @@
     });
 
     $('#btnSalvar').click(function () {
-
         if ($('#form').valid() != true) {
             FormularioInvalidoAlert();
             return;

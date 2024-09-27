@@ -15,6 +15,8 @@ namespace WebApp_Desafio_FrontEnd.ViewModels
 
         [Display(Name = "Descricao")]
         [DataMember(Name = "Descricao")]
+        [Required(ErrorMessage = "A descrição é obrigatória.")]
+        [StringLength(100, ErrorMessage = "A descrição deve ter no máximo 100 caracteres.")]
         public string Descricao { get; set; }
 
     }

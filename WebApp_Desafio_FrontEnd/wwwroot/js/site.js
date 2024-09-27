@@ -27,22 +27,23 @@ function FormularioInvalidoAlert(form) {
             type: "warning",
             title: "Atenção",
             text: msg,
-        }).then(function (result) {
-            if (errElem) {
-                //Padrão mvc
-                let id = errElem.id.replace("-error", "");
-                setTimeout(function () {
-                    try {
-                        $("#" + id).focus();
-                    } catch (e) {
-                        console.log(e);
-                        console.log(errElem);
-                        console.log("Não conseguiu focar elemento.");
-                    }
-                }, 500);
-                //settimeout pois tem um focus no form ao clicar no ok do swal...
-            }
-        });
+        }).then(
+            function (result) {
+                if (errElem) {
+                    //Padrão mvc
+                    let id = errElem.id.replace("-error", "");
+                    setTimeout(function () {
+                        try {
+                            $("#" + id).focus();
+                        } catch (e) {
+                            console.log(e);
+                            console.log(errElem);
+                            console.log("Não conseguiu focar elemento.");
+                        }
+                    }, 500);
+                    //settimeout pois tem um focus no form ao clicar no ok do swal...
+                }
+            });
     }
 }
 

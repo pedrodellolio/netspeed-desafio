@@ -3,13 +3,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
+using WebApp_Desafio_FrontEnd.Validators;
 
 namespace WebApp_Desafio_FrontEnd.ViewModels
 {
     [DataContract]
     public class ChamadoViewModel
     {
-        private CultureInfo ptBR = new CultureInfo("pt-BR");
+        private static readonly CultureInfo ptBR = new CultureInfo("pt-BR");
 
         [Display(Name = "ID")]
         [DataMember(Name = "ID")]
@@ -17,14 +18,19 @@ namespace WebApp_Desafio_FrontEnd.ViewModels
 
         [Display(Name = "Assunto")]
         [DataMember(Name = "Assunto")]
+        [Required(ErrorMessage = "O assunto é obrigatório.")]
+        [StringLength(100, ErrorMessage = "O assunto deve ter no máximo 100 caracteres.")]
         public string Assunto { get; set; }
 
         [Display(Name = "Solicitante")]
         [DataMember(Name = "Solicitante")]
+        [Required(ErrorMessage = "O solicitante é obrigatório.")]
+        [StringLength(100, ErrorMessage = "O nome do solicitante deve ter no máximo 100 caracteres.")]
         public string Solicitante { get; set; }
 
         [Display(Name = "IdDepartamento")]
         [DataMember(Name = "IdDepartamento")]
+        [Required(ErrorMessage = "Selecione um departamento.")]
         public int IdDepartamento { get; set; }
 
         [Display(Name = "Departamento")]
@@ -33,6 +39,8 @@ namespace WebApp_Desafio_FrontEnd.ViewModels
 
         [Display(Name = "DataAbertura")]
         [DataMember(Name = "DataAbertura")]
+        [Required(ErrorMessage = "A data de abertura é obrigatória.")]
+        [RegularExpression(@"^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(20[0-9]{2})$", ErrorMessage = "Data inválida.")]
         public DateTime DataAbertura { get; set; }
 
         [DataMember(Name = "DataAberturaWrapper")]

@@ -1,4 +1,31 @@
 ﻿$(document).ready(function () {
+    $.validator.addMethod(
+        "dataNaoRetroativa",
+        function (value, _) {
+            if (value) {
+                var today = new Date();
+                var todayString = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate();
+                var selectedDate = value.split('/').reverse().join('-');
+                return selectedDate >= todayString;
+            }
+            return true;
+        },
+        "A data de abertura não pode ser retroativa."
+    );
+
+    $("#DataAbertura").rules("add", {
+        dataNaoRetroativa: true
+    });
+
+    //bootstrap-datepicker
+    $('#DataAbertura').on('changeDate', function () {
+        $(this).valid();
+    });
+
+    //html input type="date"
+    $('#DataAbertura').on('change', function () {
+        $(this).valid();
+    });
 
     $('.glyphicon-calendar').closest("div.date").datepicker({
         todayBtn: "linked",
@@ -25,7 +52,6 @@
     });
 
     $('#btnSalvar').click(function () {
-
         if ($('#form').valid() != true) {
             FormularioInvalidoAlert();
             return;

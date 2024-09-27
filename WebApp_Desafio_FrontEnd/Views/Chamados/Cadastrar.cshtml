@@ -11,7 +11,8 @@
 <div class="row">
     <div class="col-lg-12">
 
-        <form id="form" asp-action="Cadastrar" class="wizard-big" enctype="multipart/form-data" role="form" onsubmit="return false;">
+        <form id="form" asp-action="Cadastrar" class="wizard-big" enctype="multipart/form-data" role="form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <input type="hidden" asp-for="ID" />
 
@@ -46,19 +47,20 @@
                             }
                         }
                     </select>
-                    <span class="text-danger" asp-validation-for="Departamento"></span>
+                    <span class="text-danger" asp-validation-for="IdDepartamento"></span>
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                <div class="form-group col-lg-3 col-md-4 col-sm-3">
                     <label class="form-label" asp-for="DataAbertura"></label>
 
                     <div class="input-group date" data-provide="datepicker">
-                        <input type="text" class="form-control" asp-for="DataAbertura" asp-format="{0:dd/MM/yyyy}" />
+                        <input type="text" class="form-control" asp-for="DataAbertura" asp-format="{0:dd/MM/yyyy}" id="DataAbertura" />
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </div>
                     </div>
+
                     <span class="text-danger" asp-validation-for="DataAbertura"></span>
                 </div>
 
@@ -80,21 +82,21 @@
 </div>
 
 @section styles
-    {
+{
     <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
-    @*<link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css" />*@
-    @*<link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" />*@
+    @*     <link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" /> *@
 }
 
 @section scripts
-    {
+{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
     <!-- SweetAlert2 -->
     <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
     <!-- Bootstrap Datepicker -->
     <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script src="~/lib/bootstrap-datepicker/locales/bootstrap-datepicker.pt-br.min.js"></script>
-
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 
     <script src="~/js/Chamados/Cadastrar.js" asp-append-version="true"></script>
 }
