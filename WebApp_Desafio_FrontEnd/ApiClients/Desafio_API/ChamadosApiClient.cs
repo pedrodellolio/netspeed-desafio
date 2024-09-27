@@ -6,14 +6,15 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
 {
     public class ChamadosApiClient : BaseClient
     {
-        private const string tokenAutenticacao = "AEEFC184-9F62-4B3E-BB93-BE42BF0FFA36";
+        private const string TOKEN_AUTENTICACAO = "AEEFC184-9F62-4B3E-BB93-BE42BF0FFA36";
 
-        private const string chamadosListUrl = "api/Chamados/Listar";
-        private const string chamadosObterUrl = "api/Chamados/Obter";
-        private const string chamadosGravarUrl = "api/Chamados/Gravar";
-        private const string chamadosExcluirUrl = "api/Chamados/Excluir";
+        private const string CHAMADOS_LIST_URL = "api/Chamados/Listar";
+        private const string CHAMADOS_SOLICITANTES_LIST_URL = "api/Chamados/ListarSolicitantes";
+        private const string CHAMADOS_OBTER_URL = "api/Chamados/Obter";
+        private const string CHAMADOS_GRAVAR_URL = "api/Chamados/Gravar";
+        private const string CHAMADOS_EXCLUIR_URL = "api/Chamados/Excluir";
 
-        private string desafioApiUrl = "https://localhost:44388/"; // Endereço API IIS-Express
+        private const string DESAFIO_API_URL = "https://localhost:44388/"; // Endereço API IIS-Express
 
         public ChamadosApiClient() : base()
         {
@@ -24,12 +25,12 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
         {
             var headers = new Dictionary<string, object>()
             {
-                { "TokenAutenticacao", tokenAutenticacao }
+                { "TokenAutenticacao", TOKEN_AUTENTICACAO }
             };
 
             var querys = default(Dictionary<string, object>); // Não há parâmetros para essa chamada
 
-            var response = base.Get($"{desafioApiUrl}{chamadosListUrl}", querys, headers);
+            var response = base.Get($"{DESAFIO_API_URL}{CHAMADOS_LIST_URL}", querys, headers);
 
             base.EnsureSuccessStatusCode(response);
 
@@ -38,11 +39,32 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
             return JsonConvert.DeserializeObject<List<ChamadoViewModel>>(json);
         }
 
+        public List<string> SolicitantesListar(string termo)
+        {
+            var headers = new Dictionary<string, object>()
+            {
+                { "TokenAutenticacao", TOKEN_AUTENTICACAO }
+            };
+
+            var querys = new Dictionary<string, object>()
+            {
+                { "termo", termo }
+            };
+
+            var response = base.Get($"{DESAFIO_API_URL}{CHAMADOS_SOLICITANTES_LIST_URL}", querys, headers);
+
+            base.EnsureSuccessStatusCode(response);
+
+            string json = base.ReadHttpWebResponseMessage(response);
+
+            return JsonConvert.DeserializeObject<List<string>>(json);
+        }
+
         public ChamadoViewModel ChamadoObter(int idChamado)
         {
             var headers = new Dictionary<string, object>()
             {
-                { "TokenAutenticacao", tokenAutenticacao }
+                { "TokenAutenticacao", TOKEN_AUTENTICACAO }
             };
 
             var querys = new Dictionary<string, object>()
@@ -50,7 +72,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
                 { "idChamado", idChamado }
             };
 
-            var response = base.Get($"{desafioApiUrl}{chamadosObterUrl}", querys, headers);
+            var response = base.Get($"{DESAFIO_API_URL}{CHAMADOS_OBTER_URL}", querys, headers);
 
             base.EnsureSuccessStatusCode(response);
 
@@ -63,10 +85,10 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
         {
             var headers = new Dictionary<string, object>()
             {
-                { "TokenAutenticacao", tokenAutenticacao }
+                { "TokenAutenticacao", TOKEN_AUTENTICACAO }
             };
 
-            var response = base.Post($"{desafioApiUrl}{chamadosGravarUrl}", chamado, headers);
+            var response = base.Post($"{DESAFIO_API_URL}{CHAMADOS_GRAVAR_URL}", chamado, headers);
 
             base.EnsureSuccessStatusCode(response);
 
@@ -79,7 +101,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
         {
             var headers = new Dictionary<string, object>()
             {
-                { "TokenAutenticacao", tokenAutenticacao }
+                { "TokenAutenticacao", TOKEN_AUTENTICACAO }
             };
 
             var querys = new Dictionary<string, object>()
@@ -87,7 +109,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
                 { "idChamado", idChamado }
             };
 
-            var response = base.Delete($"{desafioApiUrl}{chamadosExcluirUrl}", querys, headers);
+            var response = base.Delete($"{DESAFIO_API_URL}{CHAMADOS_EXCLUIR_URL}", querys, headers);
 
             base.EnsureSuccessStatusCode(response);
 

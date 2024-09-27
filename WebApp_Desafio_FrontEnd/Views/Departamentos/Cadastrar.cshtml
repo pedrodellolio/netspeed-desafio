@@ -13,12 +13,12 @@
         <form id="form" asp-action="Cadastrar" method="post" class="wizard-big" enctype="multipart/form-data" role="form" onsubmit="return false;">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="ID" id="ID" />
 
             <div class="row">
                 <div class="form-group col-lg-7 col-md-6 col-sm-12">
                     <label asp-for="Descricao" class="form-label"></label>
-                    <input type="text" asp-for="Descricao" class="form-control" />
+                    <input type="text" asp-for="Descricao" class="form-control" id="descricao" />
                     <span asp-validation-for="Descricao" class="text-danger"></span>
                 </div>
             </div>
@@ -31,7 +31,7 @@
         <div class="row">
             <div class="form-group col-sm-12 text-right float-right mb-0">
                 <button type="button" id="btnCancelar" class="btn btn-outline btn-default" data-style="slide-left">Cancelar</button>
-                @*<button type="button" id="btnExcluir" class="btn btn-outline btn-danger" data-style="slide-left">Excluir</button>*@
+                <button type="button" id="btnExcluir" class="btn btn-outline btn-danger" data-style="slide-left">Excluir</button>
                 <button type="button" id="btnSalvar" class="btn btn-outline btn-primary" data-style="slide-left">Salvar</button>
             </div>
         </div>

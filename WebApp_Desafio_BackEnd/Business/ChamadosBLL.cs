@@ -14,6 +14,12 @@ namespace WebApp_Desafio_BackEnd.Business
             return dal.ListarChamados();
         }
 
+        public IEnumerable<string> ListarSolicitantes(string termo)
+        {
+            return dal.ListarSolicitantes(termo);
+        }
+
+
         public Chamado ObterChamado(int idChamado)
         {
             return dal.ObterChamado(idChamado);

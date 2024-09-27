@@ -14,19 +14,20 @@
         <form id="form" asp-action="Cadastrar" class="wizard-big" enctype="multipart/form-data" role="form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="ID" id="ID" />
 
             <div class="row">
                 <div class="form-group col-lg-7 col-md-6 col-sm-12">
                     <label class="form-label" asp-for="Assunto"></label>
-                    <input type="text" class="form-control" asp-for="Assunto">
+                    <input type="text" class="form-control" asp-for="Assunto" id="assunto">
                     <span class="text-danger" asp-validation-for="Assunto"></span>
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-lg-7 col-md-6 col-sm-12">
+                <div id="solicitante-group" class="form-group col-lg-7 col-md-6 col-sm-12">
                     <label class="form-label" asp-for="Solicitante"></label>
-                    <input type="text" class="form-control" asp-for="Solicitante">
+                    <input type="text" class="form-control" asp-for="Solicitante" id="Solicitante" autocomplete="off" />
+                    @* <ul id="autocomplete-list"></ul> *@
                     <span class="text-danger" asp-validation-for="Solicitante"></span>
                 </div>
             </div>
@@ -74,7 +75,7 @@
         <div class="row">
             <div class="form-group col-sm-12 text-right float-right mb-0">
                 <button type="button" id="btnCancelar" class="btn btn-outline btn-default" data-style="slide-left">Cancelar</button>
-                @*<button type="button" id="btnExcluir" class="btn btn-outline btn-danger" data-style="slide-left">Excluir</button>*@
+                <button type="button" id="btnExcluir" class="btn btn-outline btn-danger" data-style="slide-left">Excluir</button>
                 <button type="button" id="btnSalvar" class="btn btn-outline btn-primary" data-style="slide-left">Salvar</button>
             </div>
         </div>
@@ -84,6 +85,8 @@
 @section styles
 {
     <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
+    <link rel="stylesheet" href="~/css/autocomplete.css" />
+
     @*     <link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" /> *@
 }

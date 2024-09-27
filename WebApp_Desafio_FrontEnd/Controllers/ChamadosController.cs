@@ -35,6 +35,14 @@ namespace WebApp_Desafio_FrontEnd.Controllers
         }
 
         [HttpGet]
+        public IActionResult ListarSolicitantes(string termo)
+        {
+            var chamadosApiClient = new ChamadosApiClient();
+            var lstSolicitantes = chamadosApiClient.SolicitantesListar(termo);
+            return Ok(lstSolicitantes);
+        }
+
+        [HttpGet]
         public IActionResult Datatable()
         {
             try

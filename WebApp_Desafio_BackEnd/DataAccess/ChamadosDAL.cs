@@ -66,6 +66,39 @@ namespace WebApp_Desafio_BackEnd.DataAccess
             return lstChamados;
         }
 
+        public IEnumerable<string> ListarSolicitantes(string termo)
+        {
+            IList<string> lstSolicitantes = new List<string>();
+
+            using (SQLiteConnection dbConnection = new SQLiteConnection(CONNECTION_STRING))
+            {
+                using (SQLiteCommand dbCommand = dbConnection.CreateCommand())
+                {
+                    dbCommand.CommandText = @"SELECT DISTINCT Solicitante FROM chamados WHERE Solicitante LIKE @TERMO ORDER BY Solicitante";
+                    dbCommand.Parameters.AddWithValue("@TERMO", termo + "%");
+
+                    dbConnection.Open();
+
+                    using (SQLiteDataReader dataReader = dbCommand.ExecuteReader())
+                    {
+                        var solicitante = string.Empty;
+
+                        while (dataReader.Read())
+                        {
+                            if (!dataReader.IsDBNull(0))
+                                solicitante = dataReader.GetString(0);
+
+                            lstSolicitantes.Add(solicitante);
+                        }
+                        dataReader.Close();
+                    }
+                    dbConnection.Close();
+                }
+            }
+
+            return lstSolicitantes;
+        }
+
         public Chamado ObterChamado(int idChamado)
         {
             var chamado = Chamado.Empty;

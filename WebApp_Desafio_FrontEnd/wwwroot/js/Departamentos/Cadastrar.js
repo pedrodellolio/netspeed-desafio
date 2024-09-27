@@ -61,4 +61,52 @@
         });
     });
 
+    $('#btnExcluir').click(function () {
+
+        let idRegistro = $('#ID').val();
+        let descricao = $('#descricao').val();
+
+        if (!idRegistro || idRegistro <= 0) {
+            return;
+        }
+
+        if (idRegistro) {
+            Swal.fire({
+                text: "Tem certeza de que deseja excluir " + descricao + " ?",
+                type: "warning",
+                showCancelButton: true,
+            }).then(function (result) {
+
+                if (result.value) {
+                    $.ajax({
+                        url: config.contextPath + 'Departamentos/Excluir/' + idRegistro,
+                        type: 'DELETE',
+                        contentType: 'application/json',
+                        error: function (result) {
+
+                            Swal.fire({
+                                text: result,
+                                confirmButtonText: 'OK',
+                                icon: 'error'
+                            });
+
+                        },
+                        success: function (result) {
+
+                            Swal.fire({
+                                type: result.Type,
+                                title: result.Title,
+                                text: result.Message,
+                            }).then(function () {
+                                window.location.href = config.contextPath + 'Departamentos/'
+                            });
+                        }
+                    });
+                } else {
+                    console.log("Cancelou a exclusão.");
+                }
+
+            });
+        }
+    });
 });

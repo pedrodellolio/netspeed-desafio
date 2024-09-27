@@ -64,6 +64,7 @@ body {
 .row .col-md-3 {
     text-align: center;
 }
-.row .col-md-3 span {
-    font-size: 200%;
-}
+
+    .row .col-md-3 span {
+        font-size: 200%;
+    }

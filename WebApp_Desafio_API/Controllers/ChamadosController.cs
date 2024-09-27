@@ -61,6 +61,37 @@ namespace WebApp_Desafio_API.Controllers
         }
 
         /// <summary>
+        /// Lista todos os solicitantes únicos
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        [Route("ListarSolicitantes")]
+        public IActionResult ListarSolicitantes([FromQuery] string termo)
+        {
+            try
+            {
+                var lst = this.bll.ListarSolicitantes(termo);
+                return Ok(lst);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ApplicationException ex)
+            {
+                return StatusCode(422, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Obtém dados de um chamado específico
         /// </summary>
         /// <param name="idChamado">O ID do chamado a ser obtido</param>
@@ -78,14 +109,14 @@ namespace WebApp_Desafio_API.Controllers
                 var _chamado = this.bll.ObterChamado(idChamado);
 
                 var chamado = new ChamadoResponse()
-                              {
-                                  id = _chamado.ID,
-                                  assunto = _chamado.Assunto,
-                                  solicitante = _chamado.Solicitante,
-                                  idDepartamento = _chamado.IdDepartamento,
-                                  departamento = _chamado.Departamento,
-                                  dataAbertura = _chamado.DataAbertura
-                              };
+                {
+                    id = _chamado.ID,
+                    assunto = _chamado.Assunto,
+                    solicitante = _chamado.Solicitante,
+                    idDepartamento = _chamado.IdDepartamento,
+                    departamento = _chamado.Departamento,
+                    dataAbertura = _chamado.DataAbertura
+                };
 
                 return Ok(chamado);
             }
@@ -140,7 +171,7 @@ namespace WebApp_Desafio_API.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        
+
         /// <summary>
         /// Exclui um chamado específico
         /// </summary>

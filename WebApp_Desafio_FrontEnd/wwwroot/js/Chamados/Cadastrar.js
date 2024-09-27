@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     $.validator.addMethod(
-        "dataNaoRetroativa",
+        'dataNaoRetroativa',
         function (value, _) {
             if (value) {
                 var today = new Date();
@@ -10,25 +10,25 @@
             }
             return true;
         },
-        "A data de abertura não pode ser retroativa."
+        'A data de abertura não pode ser retroativa.'
     );
 
-    $("#DataAbertura").rules("add", {
+    $('#DataAbertura').rules('add', {
         dataNaoRetroativa: true
     });
 
-    //bootstrap-datepicker
+    // bootstrap-datepicker
     $('#DataAbertura').on('changeDate', function () {
         $(this).valid();
     });
 
-    //html input type="date"
+    // html input type='date'
     $('#DataAbertura').on('change', function () {
         $(this).valid();
     });
 
-    $('.glyphicon-calendar').closest("div.date").datepicker({
-        todayBtn: "linked",
+    $('.glyphicon-calendar').closest('div.date').datepicker({
+        todayBtn: 'linked',
         keyboardNavigation: false,
         forceParse: false,
         calendarWeeks: false,
@@ -37,16 +37,60 @@
         language: 'pt-BR'
     });
 
+    const MIN_CARACTERES = 2;  // Número mínimo de caracteres para fazer a busca
+    // solicitante autocomplete
+    $('#Solicitante').on('input', function () {
+        var input = $(this).val();
+        $('#autocomplete-list').empty();
+
+        if (input.length < MIN_CARACTERES) {
+            $("#autocomplete-list").removeClass("custom-autocomplete");
+            return;
+        };
+
+        $.ajax({
+            url: config.contextPath + 'Chamados/ListarSolicitantes',
+            type: 'GET',
+            data: { termo: input },
+            success: function (data) {
+                if (data.length === 0) return;
+
+                var ul = $('<ul id="autocomplete-list" class="autocomplete-list"></ul>');
+                $("#solicitante-group").append(ul);
+
+                data.forEach(function (solicitante) {
+                    $('#autocomplete-list').append('<div class="autocomplete-item">' + solicitante + '</div>');
+                });
+                $('#autocomplete-list div').on('click', function () {
+                    $('#Solicitante').val($(this).text());
+                    $('#autocomplete-list').empty();
+                    ul.remove();
+                });
+            },
+            error: function (error) {
+                console.error('Erro ao buscar solicitantes: ', error);
+            }
+        });
+    });
+
+    // Fechar autocomplete ao clicar fora do campo
+    $(document).on('click', function (e) {
+        if (!$(e.target).closest('#Solicitante').length) {
+            $('#autocomplete-list').empty();
+            $(".autocomplete-list").remove();
+        }
+    });
+
     $('#btnCancelar').click(function () {
         Swal.fire({
-            html: "Deseja cancelar essa operação? O registro não será salvo.",
-            type: "warning",
+            html: 'Deseja cancelar essa operação? O registro não será salvo.',
+            type: 'warning',
             showCancelButton: true,
         }).then(function (result) {
             if (result.value) {
                 history.back();
             } else {
-                console.log("Cancelou a inclusão.");
+                console.log('Cancelou a inclusão.');
             }
         });
     });
@@ -62,7 +106,7 @@
         //debugger;
 
         $.ajax({
-            type: "POST",
+            type: 'POST',
             url: url,
             data: chamado,
             success: function (result) {
@@ -88,4 +132,52 @@
         });
     });
 
+    $('#btnExcluir').click(function () {
+
+        let idRegistro = $('#ID').val();
+        let assunto = $('#assunto').val();
+
+        if (!idRegistro || idRegistro <= 0) {
+            return;
+        }
+
+        if (idRegistro) {
+            Swal.fire({
+                text: "Tem certeza de que deseja excluir " + assunto + " ?",
+                type: "warning",
+                showCancelButton: true,
+            }).then(function (result) {
+
+                if (result.value) {
+                    $.ajax({
+                        url: config.contextPath + 'Chamados/Excluir/' + idRegistro,
+                        type: 'DELETE',
+                        contentType: 'application/json',
+                        error: function (result) {
+
+                            Swal.fire({
+                                text: result,
+                                confirmButtonText: 'OK',
+                                icon: 'error'
+                            });
+
+                        },
+                        success: function (result) {
+
+                            Swal.fire({
+                                type: result.Type,
+                                title: result.Title,
+                                text: result.Message,
+                            }).then(function () {
+                                window.location.href = config.contextPath + 'Chamados/'
+                            });
+                        }
+                    });
+                } else {
+                    console.log("Cancelou a exclusão.");
+                }
+
+            });
+        }
+    });
 });
