@@ -73,6 +73,12 @@ function addBotaoSalvar() {
 }
 
 function addBotaoExcluir() {
+    let idRegistro = $('#ID').val();
+    if (idRegistro == '0') {
+        $('#btnExcluir').hide();
+        return;
+    }
+
     $('#btnExcluir').click(function () {
 
         let idRegistro = $('#ID').val();

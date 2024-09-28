@@ -1,4 +1,4 @@
-﻿const URL_EDITAR = 'Chamados/Editar/';
+﻿const URL_EDITAR = 'Departamentos/Editar/';
 
 $(document).ready(function () {
     const table = addTabela();

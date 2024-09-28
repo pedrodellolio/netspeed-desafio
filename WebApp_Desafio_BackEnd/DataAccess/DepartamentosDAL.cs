@@ -98,7 +98,7 @@ namespace WebApp_Desafio_BackEnd.DataAccess
                         dbCommand.CommandText = "UPDATE departamentos SET Descricao = @Descricao WHERE ID = @ID";
                     }
 
-                    dbCommand.Parameters.AddWithValue("@Descricao", descricao);
+                    dbCommand.Parameters.AddWithValue("@Descricao", descricao.Trim());
                     dbCommand.Parameters.AddWithValue("@ID", ID);
 
                     dbConnection.Open();

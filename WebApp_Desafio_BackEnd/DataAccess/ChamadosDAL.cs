@@ -177,8 +177,8 @@ namespace WebApp_Desafio_BackEnd.DataAccess
                               WHERE ID = @ID ";
                     }
 
-                    dbCommand.Parameters.AddWithValue("@Assunto", Assunto);
-                    dbCommand.Parameters.AddWithValue("@Solicitante", Solicitante);
+                    dbCommand.Parameters.AddWithValue("@Assunto", Assunto.Trim());
+                    dbCommand.Parameters.AddWithValue("@Solicitante", Solicitante.Trim());
                     dbCommand.Parameters.AddWithValue("@IdDepartamento", IdDepartamento);
                     dbCommand.Parameters.AddWithValue("@DataAbertura", DataAbertura.ToString(ANSI_DATE_FORMAT));
                     dbCommand.Parameters.AddWithValue("@ID", ID);
