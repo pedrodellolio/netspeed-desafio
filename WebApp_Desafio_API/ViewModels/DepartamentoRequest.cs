@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApp_Desafio_API.ViewModels
 {
@@ -15,6 +16,9 @@ namespace WebApp_Desafio_API.ViewModels
         /// <summary>
         /// Descrição do Departamento
         /// </summary>
+        [Required(ErrorMessage = "A descrição é obrigatória.")]
+        [StringLength(100, ErrorMessage = "A descrição deve ter no máximo 100 caracteres.")]
         public string descricao { get; set; }
     }
 }
+

@@ -1,7 +1,13 @@
 ﻿$(document).ready(function () {
+    addDatePicker();
+    addBotaoCancelar();
+    addBotaoSalvar();
+    addBotaoExcluir();
+});
 
-    $('.glyphicon-calendar').closest("div.date").datepicker({
-        todayBtn: "linked",
+function addDatePicker() {
+    $('.glyphicon-calendar').closest('div.date').datepicker({
+        todayBtn: 'linked',
         keyboardNavigation: false,
         forceParse: false,
         calendarWeeks: false,
@@ -9,7 +15,9 @@
         autoclose: true,
         language: 'pt-BR'
     });
+}
 
+function addBotaoCancelar() {
     $('#btnCancelar').click(function () {
         Swal.fire({
             html: "Deseja cancelar essa operação? O registro não será salvo.",
@@ -23,7 +31,9 @@
             }
         });
     });
+}
 
+function addBotaoSalvar() {
     $('#btnSalvar').click(function () {
         if ($('#form').valid() != true) {
             FormularioInvalidoAlert();
@@ -60,7 +70,9 @@
             },
         });
     });
+}
 
+function addBotaoExcluir() {
     $('#btnExcluir').click(function () {
 
         let idRegistro = $('#ID').val();
@@ -109,4 +121,4 @@
             });
         }
     });
-});
+}

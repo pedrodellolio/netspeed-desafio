@@ -15,10 +15,10 @@
         <button type="button" class="btn btn-outline btn-primary" id="btnAdicionar">
             <i class="fa fa-plus"></i> Adicionar
         </button>
-        <button type="button" class="btn btn-outline btn-primary" id="btnEditar">
+        <button type="button" class="btn btn-outline btn-primary show-tooltip" id="btnEditar">
             <i class="fa fa-pencil"></i> Editar
         </button>
-        <button type="button" class="btn btn-outline btn-danger" id="btnExcluir">
+        <button type="button" class="btn btn-outline btn-danger show-tooltip" id="btnExcluir">
             <i class="fa fa-trash"></i> Excluir
         </button>
     </div>
@@ -44,12 +44,12 @@
 @section styles
 {
     <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
+    <link rel="stylesheet" href="~/css/tooltip.css" />
 }
 
 @section scripts
 {
     <!-- SweetAlert2 -->
     <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
-
     <script src="~/js/Departamentos/Listar.js" asp-append-version="true"></script>
 }

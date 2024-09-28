@@ -1,4 +1,14 @@
 ﻿$(document).ready(function () {
+    addValidacaoDataNaoRetroativa();
+    addDatePicker();
+    addAutocompleteSolicitante();
+    addBotaoCancelar();
+    addBotaoSalvar();
+    addBotaoExcluir();
+});
+
+
+function addValidacaoDataNaoRetroativa() {
     $.validator.addMethod(
         'dataNaoRetroativa',
         function (value, _) {
@@ -17,16 +27,12 @@
         dataNaoRetroativa: true
     });
 
-    // bootstrap-datepicker
-    $('#DataAbertura').on('changeDate', function () {
-        $(this).valid();
-    });
-
-    // html input type='date'
     $('#DataAbertura').on('change', function () {
         $(this).valid();
     });
+}
 
+function addDatePicker() {
     $('.glyphicon-calendar').closest('div.date').datepicker({
         todayBtn: 'linked',
         keyboardNavigation: false,
@@ -36,9 +42,10 @@
         autoclose: true,
         language: 'pt-BR'
     });
+}
 
+function addAutocompleteSolicitante() {
     const MIN_CARACTERES = 2;  // Número mínimo de caracteres para fazer a busca
-    // solicitante autocomplete
     $('#Solicitante').on('input', function () {
         var input = $(this).val();
         $('#autocomplete-list').empty();
@@ -80,7 +87,9 @@
             $(".autocomplete-list").remove();
         }
     });
+}
 
+function addBotaoCancelar() {
     $('#btnCancelar').click(function () {
         Swal.fire({
             html: 'Deseja cancelar essa operação? O registro não será salvo.',
@@ -94,7 +103,8 @@
             }
         });
     });
-
+}
+function addBotaoSalvar() {
     $('#btnSalvar').click(function () {
         if ($('#form').valid() != true) {
             FormularioInvalidoAlert();
@@ -131,7 +141,9 @@
             },
         });
     });
+}
 
+function addBotaoExcluir() {
     $('#btnExcluir').click(function () {
 
         let idRegistro = $('#ID').val();
@@ -180,4 +192,5 @@
             });
         }
     });
-});
+}
+

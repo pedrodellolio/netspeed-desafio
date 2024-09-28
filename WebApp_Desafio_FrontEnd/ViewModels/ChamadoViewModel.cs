@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
-using WebApp_Desafio_FrontEnd.Validators;
 
 namespace WebApp_Desafio_FrontEnd.ViewModels
 {

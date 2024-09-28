@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApp_Desafio_FrontEnd.Validators
+namespace WebApp_Desafio_API.Validators
 {
     public class DataNaoRetroativaAttribute : ValidationAttribute
     {

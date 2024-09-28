@@ -1,6 +1,19 @@
-﻿$(document).ready(function () {
+﻿const URL_EDITAR = 'Chamados/Editar/';
 
-    var table = $('#dataTables-Chamados').DataTable({
+$(document).ready(function () {
+    const table = addTabela();
+    inicializaBotoes(table);
+    habilitaSelecaoLinhas(table);
+    addBotaoRelatorio();
+    addBotaoAdicionar();
+    addBotaoEditar(table);
+    habilitaDuploCliqueEditar('#dataTables-Chamados tbody', table, URL_EDITAR);
+    addBotaoExcluir(table);
+    addTooltipBotoes('.show-tooltip', 'Selecione um chamado');
+});
+
+function addTabela() {
+    return $('#dataTables-Chamados').DataTable({
         paging: false,
         ordering: false,
         info: false,
@@ -19,7 +32,16 @@
             $('#dataTables-Chamados tbody tr').css('cursor', 'pointer');
         }
     });
+}
 
+function inicializaBotoes(table) {
+    // Desabilitar botões se não houver uma linha selecionada (estado inicial)
+    var registroSelecionado = table.row('.selected').data();
+    $('#btnExcluir').prop('disabled', !registroSelecionado);
+    $('#btnEditar').prop('disabled', !registroSelecionado);
+}
+
+function habilitaSelecaoLinhas(table) {
     $('#dataTables-Chamados tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -27,29 +49,30 @@
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
         }
+        inicializaBotoes(table);
     });
+}
 
-
-    $('#btnRelatorio').click(function () {
-        window.location.href = config.contextPath + 'Chamados/Report';
-    });
-
-    $('#btnAdicionar').click(function () {
-        window.location.href = config.contextPath + 'Chamados/Cadastrar';
-    });
-
-    const URL_EDITAR = 'Chamados/Editar/';
-    // Habilita o duplo clique redirecionar para a edição da linha
-    $('#dataTables-Chamados tbody').on('dblclick', 'tr', function () {
-        var data = table.row(this).data();
-        window.location.href = config.contextPath + URL_EDITAR + data.ID;
-    });
-
+function addBotaoEditar(table) {
     $('#btnEditar').click(function () {
         var data = table.row('.selected').data();
         window.location.href = config.contextPath + URL_EDITAR + data.ID;
     });
+}
 
+function addBotaoAdicionar() {
+    $('#btnAdicionar').click(function () {
+        window.location.href = config.contextPath + 'Chamados/Cadastrar';
+    });
+}
+
+function addBotaoRelatorio() {
+    $('#btnRelatorio').click(function () {
+        window.location.href = config.contextPath + 'Chamados/Report';
+    });
+}
+
+function addBotaoExcluir(table) {
     $('#btnExcluir').click(function () {
 
         let data = table.row('.selected').data();
@@ -97,5 +120,4 @@
             });
         }
     });
-
-});
+}
